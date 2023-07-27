@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BlueBirdGoodbye</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="header-navigation">
+            <div class="header-title">
+                <h3><a asp-area="" asp-controller="Home" asp-action="Index">BlueBirdGoodbye</a></h3>
+            </div>
+            <div class="search-container">
+                <input class="header-search" type="search"/>
+            </div>
+            <div class="header-account-button">
+                <a asp-area="" asp-controller="Home" asp-action="Autharization">
+                    <img src="~/pic/account-icon.png" alt="профиль" />
+                </a>
+            </div>
+        </nav>
+        <hr />
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+        <hr />
+        <div>
+            &copy; 2023 - SocialNetwork - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
