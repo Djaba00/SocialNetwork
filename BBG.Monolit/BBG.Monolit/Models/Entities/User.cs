@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace BBG.Monolit.Models.DataAccess.Entities
+namespace BBG.Monolit.Models.Entities
 {
     public class User : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string? MiddleName { get; set; }
+        public string MiddleName { get; set; }
         public DateTime BirthDay { get; set; }
 
     }
