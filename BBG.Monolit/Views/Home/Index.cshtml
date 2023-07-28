@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using BBG.Monolit.Models.Entities;
+@using BBG.Monolit.Models.ViewModels.Account;
+@inject SignInManager<User> SignInManager;
+@inject UserManager<User> UserManager;
+
+@model BBG.Monolit.Models.ViewModels.Account.MainViewModel;
+@{
+    ViewData["Title"] = "Главная";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>Hello @User.Identity!</div>
+}
+else
+{
+    <div class="row">
+         <div class="side">
+            <div class="center">
+                Пользуйтесь нашей самой крутой соцсетью! Регистрируйтесь всего за 2 минуты, делитесь мыслями, находите новых друзей.
+            </div>
+            <img class="main-img" src="/pic/BlueBird.png" />
+        </div> 
+
+        <div class="main">
+            <partial name="Login" model="Model.LoginView" />
+            <partial name="Register" model="Model.RegisterView" />
+        </div>
+
+    </div>
+
+}
