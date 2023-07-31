@@ -24,7 +24,7 @@ namespace BBG.Monolit.Controllers.Account
         [HttpGet]
         public IActionResult Register()
         {
-            return View("Home/Register", model:new RegisterViewModel()); ;
+            return View("Home/Register"); ;
         }
 
         [Route("RegisterStep2")]
@@ -38,9 +38,10 @@ namespace BBG.Monolit.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = _mapper.Map<User>(model);
+
                 var result = await _userManager.CreateAsync(user, model.PasswordReg);
                 if (result.Succeeded)
                 {
@@ -49,7 +50,7 @@ namespace BBG.Monolit.Controllers.Account
                 }
                 else
                 {
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }

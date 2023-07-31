@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BBG.Monolit.DataAccess.MsSql
 {
-    public class AppDbContext : IdentityDbContext<User>
+    public class MsSqlDbContext : IdentityDbContext<User>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public MsSqlDbContext(DbContextOptions<MsSqlDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }

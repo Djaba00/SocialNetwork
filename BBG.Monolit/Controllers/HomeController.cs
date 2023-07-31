@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using BBG.Monolit.Models.ViewModels.Account;
 
 namespace BBG.Controllers
 {
@@ -18,15 +19,14 @@ namespace BBG.Controllers
             _logger = logger;
         }
 
-        public IActionResult Autharization()
-        {
-            return View();
-        }
+        [Route("")]
+        [Route("[controller]/[action]")]
         public IActionResult Index()
         {
-            return View();
+            return View(new MainViewModel());
         }
 
+        [Route("[action]")]
         public IActionResult Privacy()
         {
             return View();

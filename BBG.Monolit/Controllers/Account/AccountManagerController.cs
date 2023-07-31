@@ -41,9 +41,11 @@ namespace BBG.Monolit.Controllers.Account
         {
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<User>(model);
+                var findUser = await _userManager.FindByEmailAsync(model.Email);
 
-                var result = await _signInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, false);
+                var user = _mapper.Map<User>(findUser);
+
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
 
                 if(result.Succeeded)
                 {
@@ -53,8 +55,12 @@ namespace BBG.Monolit.Controllers.Account
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                        return RedirectToAction("Index", "Home");
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
 

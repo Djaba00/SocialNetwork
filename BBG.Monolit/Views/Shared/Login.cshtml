@@ -24,6 +24,12 @@
             </div>
         </div>
         <div>
+            <div class="mrgn">
+                <input asp-for="RememberMe" class="form-control" />
+                <span asp-validation-for="RememberMe" type="checkbox" class="text-danger"></span>
+            </div>
+        </div>
+        <div>
             <input class="enter_submit" type="submit" value="Войти" />
         </div>
     </form>

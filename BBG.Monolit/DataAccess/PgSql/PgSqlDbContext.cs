@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BBG.Monolit.DataAccess.PgSql
 {
-    public class AppDbContext : IdentityDbContext<User>
+    public class PgSqlDbContext : IdentityDbContext<User>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public PgSqlDbContext(DbContextOptions<PgSqlDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
