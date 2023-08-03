@@ -1,0 +1,17 @@
+﻿@using BBG.Monolit.Models.ViewModels.Account
+
+@model BBG.Monolit.Models.ViewModels.Account.UserViewModel
+
+
+<div class="user-info-conatiner">
+    <p class="user-full-name">@Model.User.GetFullName()</p>
+    <img class="user-pic" src="@Model.User.Image"/>
+    <button class="update-button">Редактировать</button>
+    <ul class="user-info-list">
+        <li>Статус: @Model.User.Status</li>
+        <li>Дата рождения: @Model.User.BirthDate</li>
+        <li>Информация обо мне: @Model.User.About</li>
+        <li>Email: @Model.User.Email</li>
+    </ul>
+    <div class="user-friends">Друзья</div>
+</div>

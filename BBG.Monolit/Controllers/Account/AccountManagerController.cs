@@ -2,6 +2,7 @@
 using BBG.Controllers;
 using BBG.Monolit.Models.Entities;
 using BBG.Monolit.Models.ViewModels.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ namespace BBG.Monolit.Controllers.Account
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("UserPage", "AccountManager");
                     }
                 }
                 else
@@ -65,6 +66,18 @@ namespace BBG.Monolit.Controllers.Account
             }
 
             return View("Views/Home/Index.cshtml", model);
+        }
+
+        [Route("UserPage")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult UserPage()
+        {
+            var user = User;
+
+            var result = _userManager.GetUserAsync(user);
+
+            return View("Views/UserPage/UserPage.cshtml", new UserViewModel(result.Result));
         }
 
         [Route("Logout")]

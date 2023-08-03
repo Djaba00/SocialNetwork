@@ -1,0 +1,39 @@
+﻿.user-info-conatiner {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto 1fr;
+    grid-gap: 2.5rem;
+    justify-items: start;
+    align-items: start;
+    margin-top: 5rem;
+}
+
+.user-pic {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    width: 80%;
+}
+
+.update-button {
+    grid-row-start: 3;
+    grid-column-start: 1;
+    width: 80%;
+}
+
+.user-full-name {
+    grid-row-start: 1; 
+    grid-column-start: 2;
+    
+}
+
+.user-info-list {
+    grid-row-start: 2;
+    grid-column-start: 2;
+    text-decoration: none;
+}
+
+.user-friends {
+    grid-row-start: 3;
+    grid-column-start: 2;
+
+}
