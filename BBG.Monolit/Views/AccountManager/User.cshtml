@@ -1,0 +1,29 @@
+﻿@using BBG.Monolit.Models.ViewModels.Account
+
+@model BBG.Monolit.Models.ViewModels.Account.UserViewModel
+
+
+<div class="user-info-conatiner">
+    <div class="user-info-left">
+        <img class="user-pic" src="@Model.User.Image" />
+        <div class="update-button">
+            <form method="get" asp-area="" asp-controller="AccountManager" asp-action="Edit">
+                <button>Редактировать</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="user-info-right">
+        <p class="user-full-name">@Model.User.GetFullName()</p>
+        <hr>
+        <ul class="user-info-list">
+            <li>Статус: @Model.User.Status</li>
+            <li>Дата рождения: @Model.User.BirthDate</li>
+            <li>Информация обо мне: @Model.User.About</li>
+            <li>Email: @Model.User.Email</li>
+        </ul>
+        <hr>
+        <div class="user-friends">Друзья</div>
+        <hr>
+    </div>
+</div>

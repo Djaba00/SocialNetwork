@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using BBG.Controllers;
-using BBG.Monolit.Models.Entities;
+using BBG.Monolit.Extensions;
+using BBG.Monolit.Models.Entities.Users;
 using BBG.Monolit.Models.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BBG.Monolit.Controllers.Account
@@ -22,6 +25,7 @@ namespace BBG.Monolit.Controllers.Account
             _signInManager = signInManager;
         }
 
+        #region[Autharization]
         [Route("Login")]
         [HttpGet]
         public IActionResult Login()
@@ -42,42 +46,20 @@ namespace BBG.Monolit.Controllers.Account
         {
             if (ModelState.IsValid)
             {
-                var findUser = await _userManager.FindByEmailAsync(model.Email);
+                var user = _mapper.Map<User>(model);
 
-                var user = _mapper.Map<User>(findUser);
+                var result = await _signInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, false);
 
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
-
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("UserPage", "AccountManager");
-                    }
+                    return RedirectToAction("MyPage", "AccountManager");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
-
-            return View("Views/Home/Index.cshtml", model);
-        }
-
-        [Route("UserPage")]
-        [HttpGet]
-        [Authorize]
-        public IActionResult UserPage()
-        {
-            var user = User;
-
-            var result = _userManager.GetUserAsync(user);
-
-            return View("Views/UserPage/UserPage.cshtml", new UserViewModel(result.Result));
+            return RedirectToAction("Index", "Home");
         }
 
         [Route("Logout")]
@@ -88,5 +70,81 @@ namespace BBG.Monolit.Controllers.Account
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        #endregion
+
+        #region[UserPage]
+        [Authorize]
+        [Route("MyPage")]
+        [HttpGet]
+        public async Task<IActionResult> MyPage()
+        {
+            var user = User;
+
+            var result = await _userManager.GetUserAsync(user);
+
+            var model = new UserViewModel(result);
+
+            return View("User", model);
+        }
+        #endregion
+
+        #region[UpdateUser]
+        [Authorize]
+        [Route("Edit")]
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            var user = User;
+
+            var result = _userManager.GetUserAsync(User);
+
+            var editModel = _mapper.Map<UserEditViewModel>(result.Result);
+
+            return View("Edit", editModel);
+        }
+
+        [Authorize]
+        [Route("Update")]
+        [HttpPost]
+        public async Task<IActionResult> Update(UserEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+
+                user.Convert(model);
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("MyPage", "AccountManager");
+                }
+                else
+                {
+                    return RedirectToAction("Edit", "AccountManager");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Некорректные данные");
+                return View("Edit", model);
+            }
+        }
+        #endregion
+
+        #region[SearchUsers]
+        [Route("UserList")]
+        [HttpPost]
+        public IActionResult UserList(string search)
+        {
+            search = search.ToLower();
+
+            var model = new SearchViewModel
+            {
+                UsersList = _userManager.Users.AsEnumerable().Where(x => x.GetFullName().ToLower().Contains(search)).ToList()
+            };
+            return View("UserList", model);
+        }
+        #endregion
     }
 }

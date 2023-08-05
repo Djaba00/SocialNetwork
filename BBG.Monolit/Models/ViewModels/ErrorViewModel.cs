@@ -1,6 +1,6 @@
 using System;
 
-namespace BBG.Models
+namespace BBG.Monolit.Models.ViewModels
 {
     public class ErrorViewModel
     {

@@ -1,4 +1,4 @@
-﻿using BBG.Monolit.Models.Entities;
+﻿using BBG.Monolit.Models.Entities.Users;
 
 namespace BBG.Monolit.Models.ViewModels.Account
 {

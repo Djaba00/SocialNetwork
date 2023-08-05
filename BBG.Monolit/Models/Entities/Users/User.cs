@@ -1,9 +1,10 @@
 ﻿using System;
+using BBG.Monolit.Models.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 
-namespace BBG.Monolit.Models.Entities
+namespace BBG.Monolit.Models.Entities.Users
 {
     public class User : IdentityUser
     {
@@ -21,7 +22,7 @@ namespace BBG.Monolit.Models.Entities
 
         public User()
         {
-            Image = "https://via.placeholder.com/500";
+            Image = "https://thispersondoesnotexist.com/";
             Status = "Ура! Я в соцсети!";
             About = "Информация обо мне.";
         }

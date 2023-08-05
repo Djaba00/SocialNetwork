@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BBG.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using BBG.Monolit.Models.ViewModels.Account;
+using BBG.Monolit.Models.ViewModels;
 
 namespace BBG.Controllers
 {

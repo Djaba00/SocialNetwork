@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Models\ViewModels\Account\UserEditViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Register\RegisterStep2.cshtml" />
   </ItemGroup>
 

@@ -1,6 +1,5 @@
 using AutoMapper;
 using BBG.Monolit.DataAccess.PgSql;
-using BBG.Monolit.Models.Entities;
 using BBG.Monolit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-
+using BBG.Monolit.Models.Entities.Users;
 
 namespace BBG
 {

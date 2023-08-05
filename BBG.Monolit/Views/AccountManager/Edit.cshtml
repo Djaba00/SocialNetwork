@@ -1,0 +1,43 @@
+﻿@using BBG.Monolit.Models.ViewModels.Account;
+
+@model BBG.Monolit.Models.ViewModels.Account.UserEditViewModel;
+
+<div class="user-edit-container">
+    <div class="center">
+        <h3>Редактирование пользователя</h3>
+    </div>
+    
+    <form asp-area="" asp-controller="AccountManager" asp-action="Update">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="mrgn">
+            <input asp-for="UserId" class="form-control" type="text" placeholder="Id" readonly />
+        </div>
+        <div class="mrgn">
+            <input asp-for="FirstName" class="form-control" type="text" placeholder="Имя" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="LastName" class="form-control" type="text" placeholder="Фамилия" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="MiddleName" class="form-control" type="text" placeholder="Отчество" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="BirthDate" class="form-control" type="date" placeholder="Дата рождения" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="Email" class="form-control" type="email" placeholder="Email" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="Image" class="form-control" type="url" placeholder="Изображение профиля" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="Status" class="form-control" type="text" placeholder="Статус" />
+        </div>
+        <div class="mrgn">
+            <input asp-for="About" class="form-control" type="text" placeholder="О себе" />
+        </div>
+        <div class="center">
+            <input class="btn_submit" type="submit" value="Сохранить" />
+        </div>
+    </form>
+</div>

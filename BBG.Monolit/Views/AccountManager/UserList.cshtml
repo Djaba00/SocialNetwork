@@ -1,0 +1,17 @@
+﻿@model BBG.Monolit.Models.ViewModels.Account.SearchViewModel;
+
+<div class="block-reg background-white">
+    @if (Model.UsersList.Count != 0)
+    {
+        @foreach (var user in Model.UsersList)
+        {
+            <div>
+                <label>@user.GetFullName()</label>
+            </div>
+        }
+    }
+    else
+    {
+        <label> Поиска не дал результатов</label>
+    }
+</div>

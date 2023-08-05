@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BBG.Monolit.Migrations
 {
     [DbContext(typeof(PgSqlDbContext))]
-    [Migration("20230731073954_update1")]
-    partial class update1
+    [Migration("20230804051113_User_update1")]
+    partial class User_update1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace BBG.Monolit.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-            
+
             modelBuilder.Entity("BBG.Monolit.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")

@@ -5,7 +5,7 @@
 namespace BBG.Monolit.Migrations
 {
     /// <inheritdoc />
-    public partial class update1 : Migration
+    public partial class User_update1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

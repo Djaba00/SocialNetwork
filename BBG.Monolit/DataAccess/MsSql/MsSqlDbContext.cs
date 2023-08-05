@@ -1,4 +1,4 @@
-﻿using BBG.Monolit.Models.Entities;
+﻿using BBG.Monolit.Models.Entities.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
