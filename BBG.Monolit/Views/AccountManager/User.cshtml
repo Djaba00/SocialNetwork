@@ -23,7 +23,32 @@
             <li>Email: @Model.User.Email</li>
         </ul>
         <hr>
-        <div class="user-friends">Друзья</div>
+        <label>Список друзей</label>
+        <div class="user-friends">
+            
+            @if(!(Model.Friends is null) && Model.Friends.Count != 0)
+            {
+                var friendsCount = Model.Friends.Count <= 6 ? Model.Friends.Count : 6;
+                for(var i = 0; i < friendsCount; i++)
+                {
+                    <div class="friend">
+                        <img src="@Model.Friends[i].Image"/>
+                        <label>
+                            @Model.Friends[i].GetFullName()
+                        </label>
+                        <form asp-area="" asp-controller="AccountManager" asp-action="DeleteFriend" asp-route-id="@Model.Friends[i].Id" method="post">
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                Удалить из друзей
+                            </button>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <label>У вас пока нет друзей</label>
+            }
+        </div>
         <hr>
     </div>
 </div>

@@ -12,6 +12,7 @@ using Microsoft.Identity.Client;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace BBG.Monolit.Controllers.Account
 {
@@ -78,6 +79,7 @@ namespace BBG.Monolit.Controllers.Account
         #endregion
 
         #region[UserPage]
+
         [Authorize]
         [Route("MyPage")]
         [HttpGet]
@@ -89,11 +91,14 @@ namespace BBG.Monolit.Controllers.Account
 
             var model = new UserViewModel(result);
 
+            model.Friends = await GetAllFriends(model.User);
+
             return View("User", model);
         }
         #endregion
 
         #region[UpdateUser]
+
         [Authorize]
         [Route("Edit")]
         [HttpGet]
@@ -138,6 +143,7 @@ namespace BBG.Monolit.Controllers.Account
         #endregion
 
         #region[SearchUsers]
+
         [Route("UserList")]
         [HttpPost]
         public async Task<IActionResult> UserList(string search)
@@ -182,6 +188,63 @@ namespace BBG.Monolit.Controllers.Account
 
             return repository.GetFriendsByUser(result);
 
+        }
+        #endregion
+
+        #region[Friends]
+
+        [Authorize]
+        [Route("AddFriend")]
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(string id)
+        {
+            var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
+
+            var currentUser = User;
+
+            var result = await _userManager.GetUserAsync(currentUser);
+
+            var friend = await _userManager.FindByIdAsync(id);
+
+            repository.AddFriend(result, friend);
+
+            return RedirectToAction("MyPage", "AccountManager");
+        }
+
+        [Authorize]
+        [Route("DeleteFriend")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteFriend(string id)
+        {
+            var reposiory = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
+
+            var currentUser = User;
+
+            var result = await _userManager.GetUserAsync(currentUser);
+
+            var friend = await _userManager.FindByIdAsync(id);
+
+            reposiory.DeleteFriend(result, friend);
+
+            return RedirectToAction("MyPage", "AccountManager");
+        }
+
+        private async Task<List<User>> GetAllFriends(User user)
+        {
+            var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
+
+            return repository.GetFriendsByUser(user);
+        }
+
+        private async Task<List<User>> GetAddFriends()
+        {
+            var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
+
+            var user = User;
+
+            var result = await _userManager.GetUserAsync(user);
+
+            return repository.GetFriendsByUser(result);
         }
         #endregion
     }

@@ -55,5 +55,28 @@
 }
 
 .user-friends {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    max-width: 100%;
+}
+
+.user-friends .friend {
+    max-width: 40%;
+}
+
+.user-friends .friend img {
+    max-width: 100%;
+}
+
+.user-friends .friend label {
     display: inline;
+    float: left;
+    margin-top: 0.25rem;
+}
+
+.user-friends .friend form {
+    display: inline;
+    float: right;
+    margin-top: 0.25rem;
 }
