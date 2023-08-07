@@ -5,6 +5,6 @@ namespace BBG.Monolit.Models.ViewModels.Account
 {
     public class SearchViewModel
     {
-        public List<User> UsersList { get; set; }
+        public List<UserWithFriendExt> UsersList { get; set; }
     }
 }

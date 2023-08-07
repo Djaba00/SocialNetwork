@@ -1,4 +1,4 @@
-using BBG.Monolit.DataAccess.PgSql;
+using BBG.Monolit.DataAccess.ApplicationContext.PgSql;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

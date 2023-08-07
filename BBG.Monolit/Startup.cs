@@ -1,5 +1,4 @@
 using AutoMapper;
-using BBG.Monolit.DataAccess.PgSql;
 using BBG.Monolit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,8 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using BBG.Monolit.Models.Entities.Users;
+using BBG.Monolit.DataAccess.ApplicationContext.PgSql;
+using BBG.Monolit.DataAccess.UoW;
+using BBG.Monolit.DataAccess.Repositories;
+using BBG.Monolit.Extensions;
 
 namespace BBG
 {
@@ -36,17 +38,18 @@ namespace BBG
 
             string pgSqlConnection = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<PgSqlDbContext>(options => options.UseNpgsql(pgSqlConnection));
-
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.Password.RequiredLength = 5;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<PgSqlDbContext>();
-
+            services.AddDbContext<PgSqlDbContext>(options => options.UseNpgsql(pgSqlConnection))
+                .AddUnitOfWork()
+                    .AddCustomRepository<Friend, FriendsRepository>()
+                .AddIdentity<User, IdentityRole>(options =>
+                {
+                    options.Password.RequiredLength = 5;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireDigit = false;
+                })
+                    .AddEntityFrameworkStores<PgSqlDbContext>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

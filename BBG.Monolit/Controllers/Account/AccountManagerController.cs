@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using BBG.Controllers;
+using BBG.Monolit.DataAccess.Repositories;
+using BBG.Monolit.DataAccess.UoW;
 using BBG.Monolit.Extensions;
 using BBG.Monolit.Models.Entities.Users;
 using BBG.Monolit.Models.ViewModels.Account;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,10 +20,12 @@ namespace BBG.Monolit.Controllers.Account
         private IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AccountManagerController(IMapper mapper, UserManager<User> userManager,  SignInManager<User> signInManager)
+        public AccountManagerController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<User> userManager,  SignInManager<User> signInManager)
         {
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -135,15 +140,48 @@ namespace BBG.Monolit.Controllers.Account
         #region[SearchUsers]
         [Route("UserList")]
         [HttpPost]
-        public IActionResult UserList(string search)
+        public async Task<IActionResult> UserList(string search)
         {
-            search = search.ToLower();
-
-            var model = new SearchViewModel
-            {
-                UsersList = _userManager.Users.AsEnumerable().Where(x => x.GetFullName().ToLower().Contains(search)).ToList()
-            };
+            var model = await CreateSearch(search);
             return View("UserList", model);
+        }
+
+        private async Task<SearchViewModel> CreateSearch(string search)
+        {
+            var currentUser = User;
+
+            var result = await _userManager.GetUserAsync(currentUser);
+
+            var list = _userManager.Users.AsEnumerable().Where(x => x.GetFullName().ToLower().Contains(search.ToLower())).ToList();
+
+            var withFriend = await GetAllFriends();
+
+            var data = new List<UserWithFriendExt>();
+            list.ForEach(x =>
+            {
+                var t = _mapper.Map<UserWithFriendExt>(x);
+                t.IsFriendWithCurrent = withFriend.Where(y => y.Id == x.Id || x.Id == result.Id).Count() != 0;
+                data.Add(t);
+            });
+
+            var model = new SearchViewModel()
+            {
+                UsersList = data
+            };
+
+            return model;
+        }
+        
+        private async Task<List<User>> GetAllFriends()
+        {
+            var user = User;
+
+            var result = await _userManager.GetUserAsync(user);
+
+            var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
+
+            return repository.GetFriendsByUser(result);
+
         }
         #endregion
     }
