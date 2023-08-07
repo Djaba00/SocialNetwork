@@ -15,9 +15,10 @@ namespace BBG.Monolit.Models.Entities.Users
         public string Image { get; set; }
         public string Status { get; set; }
         public string About { get; set; }
+
         public string GetFullName()
         {
-            return LastName + " " + " " + FirstName + " " + MiddleName;
+            return FirstName + " " + " " + MiddleName + " " + LastName;
         }
 
         public User()

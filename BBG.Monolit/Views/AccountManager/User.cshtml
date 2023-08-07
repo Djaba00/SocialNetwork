@@ -18,7 +18,7 @@
         <hr>
         <ul class="user-info-list">
             <li>Статус: @Model.User.Status</li>
-            <li>Дата рождения: @Model.User.BirthDate</li>
+            <li>Дата рождения: @Model.User.BirthDate.ToShortDateString()</li>
             <li>Информация обо мне: @Model.User.About</li>
             <li>Email: @Model.User.Email</li>
         </ul>
@@ -32,7 +32,10 @@
                 for(var i = 0; i < friendsCount; i++)
                 {
                     <div class="friend">
-                        <img src="@Model.Friends[i].Image"/>
+                        <div class="user-img-container">
+                            <img src="@Model.Friends[i].Image" />
+                        </div>
+                        
                         <label>
                             @Model.Friends[i].GetFullName()
                         </label>

@@ -177,18 +177,6 @@ namespace BBG.Monolit.Controllers.Account
 
             return model;
         }
-        
-        private async Task<List<User>> GetAllFriends()
-        {
-            var user = User;
-
-            var result = await _userManager.GetUserAsync(user);
-
-            var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
-
-            return repository.GetFriendsByUser(result);
-
-        }
         #endregion
 
         #region[Friends]
@@ -236,7 +224,7 @@ namespace BBG.Monolit.Controllers.Account
             return repository.GetFriendsByUser(user);
         }
 
-        private async Task<List<User>> GetAddFriends()
+        private async Task<List<User>> GetAllFriends()
         {
             var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
 
