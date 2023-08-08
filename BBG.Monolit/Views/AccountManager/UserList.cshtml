@@ -1,20 +1,27 @@
 ﻿@model BBG.Monolit.Models.ViewModels.Account.SearchViewModel;
 
-<div class="block-reg background-white">
+<div class="userList-container block-reg background-white">
     @if (Model.UsersList.Count != 0)
     {
         @foreach (var user in Model.UsersList)
         {
-            <div>
-                <label>@user.GetFullName()</label>
-                @if (!user.IsFriendWithCurrent)
-                {
-                    <form asp-area="" asp-controller="AccountManager" asp-action="AddFriend" asp-route-id="@user.Id" method="post">
-                        <button type="submit" class="btn btn-sm btn-primary">
-                            Добавить в друзья
-                        </button>
-                    </form>
-                }
+            <div class="list-user-container">
+                <div class="user-img-container">
+                    <img src="@user.Image" />
+                </div>
+                <div class="user-info-conatiner">
+                    <label>@user.GetFullName()</label>
+                    <p>@user.Status</p>
+                    <p>@user.About</p>
+                    @if (!user.IsFriendWithCurrent)
+                    {
+                        <form asp-area="" asp-controller="AccountManager" asp-action="AddFriend" asp-route-id="@user.Id" method="post">
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                Добавить в друзья
+                            </button>
+                        </form>
+                    }
+                </div>
             </div>
         }
     }

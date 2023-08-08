@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BBG.Controllers;
+using BBG.Monolit.DataAccess;
 using BBG.Monolit.DataAccess.Repositories;
 using BBG.Monolit.DataAccess.UoW;
 using BBG.Monolit.Extensions;
@@ -158,7 +159,12 @@ namespace BBG.Monolit.Controllers.Account
 
             var result = await _userManager.GetUserAsync(currentUser);
 
-            var list = _userManager.Users.AsEnumerable().Where(x => x.GetFullName().ToLower().Contains(search.ToLower())).ToList();
+            var list = _userManager.Users.AsEnumerable().ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = list.Where(x => x.GetFullName().ToLower().Contains(search.ToLower())).ToList();
+            }
+                
 
             var withFriend = await GetAllFriends();
 
@@ -298,7 +304,7 @@ namespace BBG.Monolit.Controllers.Account
                 Text = chat.NewMessage.Text,
             };
 
-            repository.Create(item);
+            repository.CreateAsync(item);
 
             var messages = repository.GetMessages(result, friend);
 
@@ -310,6 +316,28 @@ namespace BBG.Monolit.Controllers.Account
             };
 
             return View("Chat", model);
+        }
+
+        #endregion
+
+        #region[GenerateUsers]
+
+        [Route("Generate")]
+        [HttpGet]
+        public async Task<IActionResult> Generate()
+        {
+            var userGen = new GenerateUsers();
+            var userList = userGen.Populate(35);
+
+            foreach (var user in userList)
+            {
+                var result = await _userManager.CreateAsync(user, "qwerty");
+
+                if (!result.Succeeded)
+                    continue;
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion

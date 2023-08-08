@@ -1,0 +1,31 @@
+﻿.userList-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+}
+
+.list-user-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+}
+
+.list-user-container .user-img-container {
+    grid-column-start: 1;
+    max-width: 100%;
+}
+
+.list-user-container .user-img-container img {
+    max-width: 100%;
+}
+
+.list-user-container .user-info-conatiner {
+    grid-column-start: 2;
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
+.list-user-container .user-info-conatiner form {
+    margin-top: auto;
+}
