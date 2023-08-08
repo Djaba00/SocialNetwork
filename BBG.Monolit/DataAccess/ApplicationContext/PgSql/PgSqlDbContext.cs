@@ -17,6 +17,8 @@ namespace BBG.Monolit.DataAccess.ApplicationContext.PgSql
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new FriendConfiguration());
+            builder.ApplyConfiguration(new MessageConfiguration());
+
         }
     }
 }

@@ -10,10 +10,7 @@ namespace BBG.Monolit.DataAccess.Repositories
 {
     public class FriendsRepository : Repository<Friend>
     {
-        public FriendsRepository(PgSqlDbContext db) : base(db)
-        {
-            
-        }
+        public FriendsRepository(PgSqlDbContext db) : base(db) { }
 
         public void AddFriend(User target, User Friend)
         {

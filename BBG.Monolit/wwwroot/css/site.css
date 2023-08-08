@@ -79,11 +79,14 @@ body {
     display: inline-block;
 }
 
+
+
 .topnav input[type=text] {
     padding: 6px;
     margin-top: 8px;
     font-size: 17px;
-    border: none;
+    border: 1px solid;
+    border-radius: 15px;
 }
 
 .topnav .logout {

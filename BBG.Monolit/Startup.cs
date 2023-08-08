@@ -41,6 +41,7 @@ namespace BBG
             services.AddDbContext<PgSqlDbContext>(options => options.UseNpgsql(pgSqlConnection))
                 .AddUnitOfWork()
                     .AddCustomRepository<Friend, FriendsRepository>()
+                    .AddCustomRepository<Message, MessagesRepository>()
                 .AddIdentity<User, IdentityRole>(options =>
                 {
                     options.Password.RequiredLength = 5;

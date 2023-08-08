@@ -57,9 +57,9 @@
 .user-friends {
     display: flex;
     flex-direction: row;
-    align-content: center;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1rem;
     max-width: 100%;
 }
 
@@ -67,15 +67,21 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 25%;
-    align-items: center;
-    justify-items: center;
+    row-gap: 0.25rem;
+    width: 23%;
+    align-items: baseline;
+    overflow: hidden;
+}
+
+.user-friends .friend label {
+    align-self: center;
 }
 
 .user-friends .friend .user-img-container {
     display: flex;
     height: 250px;
     max-width: 180px;
+    align-self: center;
     overflow: hidden;
 }
 
@@ -83,9 +89,8 @@
     height: 100%;
 }
 
-.user-friends .friend > * {
-    max-width: 100%;
-    max-height: 100%;
+.user-friends .friend form, .user-friends .friend button {
+    min-width: 100%;
 }
 
 

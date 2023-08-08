@@ -235,5 +235,83 @@ namespace BBG.Monolit.Controllers.Account
             return repository.GetFriendsByUser(result);
         }
         #endregion
+
+        #region[Messages]
+
+        [Route("Chat")]
+        [HttpPost]
+        public async Task<IActionResult> Chat(string id)
+        {
+            var model = await GenerateChat(id);
+
+            return View("Chat", model);
+        }
+
+        [Route("Chat")]
+        [HttpGet]
+        public async Task<IActionResult> Chat()
+        {
+            var id = Request.Query["id"];
+
+            var model = await GenerateChat(id);
+
+            return View("Chat", model);
+        }
+
+        private async Task<ChatViewModel> GenerateChat(string id)
+        {
+            var currentuser = User;
+
+            var result = await _userManager.GetUserAsync(currentuser);
+            var friend = await _userManager.FindByIdAsync(id);
+
+
+            var repository = _unitOfWork.GetRepository<Message>() as MessagesRepository;
+
+            var mess = repository.GetMessages(result, friend);
+
+            var model = new ChatViewModel()
+            {
+                You = result,
+                Recipient = friend,
+                History = mess.OrderBy(x => x.Id).ToList(),
+            };
+
+            return model;
+        }
+
+        [Route("NewMessage")]
+        [HttpPost]
+        public async Task<IActionResult> NewMessage(string id, ChatViewModel chat)
+        {
+            var currentUser = User;
+
+            var result = await _userManager.GetUserAsync(currentUser);
+            var friend = await _userManager.FindByIdAsync(id);
+
+            var repository = _unitOfWork.GetRepository<Message>() as MessagesRepository;
+
+            var item = new Message()
+            {
+                Sender = result,
+                Recipient = friend,
+                Text = chat.NewMessage.Text,
+            };
+
+            repository.Create(item);
+
+            var messages = repository.GetMessages(result, friend);
+
+            var model = new ChatViewModel()
+            {
+                You = result,
+                Recipient = friend,
+                History = messages.OrderBy(x => x.Id).ToList(),
+            };
+
+            return View("Chat", model);
+        }
+
+        #endregion
     }
 }
