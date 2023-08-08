@@ -35,7 +35,7 @@ namespace BBG.Monolit.DataAccess
                 {
                     FirstName = firstName,
                     LastName = lastName,
-                    BirthDate = DateTime.Now.AddDays(-rnd.Next(1, (DateTime.Now - DateTime.Now.AddYears(-25)).Days)),
+                    BirthDate = DateTime.Now.AddDays(-rnd.Next(1, (DateTime.Now - DateTime.Now.AddYears(-25)).Days)).ToUniversalTime(),
                     Email = "test" + rnd.Next(0, 1204) + "@test.com",
                 };
 

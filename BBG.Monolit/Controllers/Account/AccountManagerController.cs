@@ -200,7 +200,7 @@ namespace BBG.Monolit.Controllers.Account
 
             var friend = await _userManager.FindByIdAsync(id);
 
-            repository.AddFriend(result, friend);
+            await repository.AddFriend(result, friend);
 
             return RedirectToAction("MyPage", "AccountManager");
         }
@@ -218,7 +218,7 @@ namespace BBG.Monolit.Controllers.Account
 
             var friend = await _userManager.FindByIdAsync(id);
 
-            reposiory.DeleteFriend(result, friend);
+            await reposiory.DeleteFriend(result, friend);
 
             return RedirectToAction("MyPage", "AccountManager");
         }
@@ -227,7 +227,7 @@ namespace BBG.Monolit.Controllers.Account
         {
             var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
 
-            return repository.GetFriendsByUser(user);
+            return await repository.GetFriendsByUser(user);
         }
 
         private async Task<List<User>> GetAllFriends()
@@ -238,7 +238,7 @@ namespace BBG.Monolit.Controllers.Account
 
             var result = await _userManager.GetUserAsync(user);
 
-            return repository.GetFriendsByUser(result);
+            return await repository.GetFriendsByUser(result);
         }
         #endregion
 
@@ -274,7 +274,7 @@ namespace BBG.Monolit.Controllers.Account
 
             var repository = _unitOfWork.GetRepository<Message>() as MessagesRepository;
 
-            var mess = repository.GetMessages(result, friend);
+            var mess = await repository.GetMessages(result, friend);
 
             var model = new ChatViewModel()
             {
@@ -304,9 +304,9 @@ namespace BBG.Monolit.Controllers.Account
                 Text = chat.NewMessage.Text,
             };
 
-            repository.CreateAsync(item);
+            await repository.CreateAsync(item);
 
-            var messages = repository.GetMessages(result, friend);
+            var messages = await repository.GetMessages(result, friend);
 
             var model = new ChatViewModel()
             {

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BBG.Monolit.DataAccess.Repositories
 {
@@ -22,32 +24,32 @@ namespace BBG.Monolit.DataAccess.Repositories
             Set = set;
         }
 
-        public void Create(T item)
+        public async Task CreateAsync(T item)
         {
             Set.Add(item);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Update(T item)
+        public async Task UpdateAsync(T item)
         {
             Set.Update(item);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Delete(T item)
+        public async Task DeleteAsync(T item)
         {
             Set.Remove(item);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public T Get(int id)
+        public async Task<T> GetAsync(int id)
         {
-            return Set.Find(id);
+            return await Set.FindAsync(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public async IAsyncEnumerable<T> GetAllAsync()
         {
-            return Set;
+            yield return (T)Set.GetAsyncEnumerator();
         }
     }
 }
